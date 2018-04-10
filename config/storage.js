@@ -1,8 +1,13 @@
 var storage = {};
 storage.secret= 'appsecret';
 var mongoose = require('mongoose');
-var url = 'mongodb://localhost:27017/tracking';
-mongoose.connect(url);
+//provide a sensible default for local development
+mongodb_connection_string = 'mongodb://127.0.0.1:27017/' + 'tracking';
+//take advantage of openshift env vars when available:
+if(process.env.OPENSHIFT_MONGODB_DB_URL){
+    mongodb_connection_string = process.env.OPENSHIFT_MONGODB_DB_URL + 'tracking';
+}
+mongoose.connect(mongodb_connection_string);
 
 var MongoClient = require('mongodb').MongoClient;
 
@@ -12,8 +17,9 @@ storage.getMongooseDB = function() {
 
 storage.getDB = function() {
     return new Promise(function(resolve, reject) {
-        MongoClient.connect(url, function(err, connection) {
+        MongoClient.connect(mongodb_connection_string, function(err, connection) {
             if (!err) {
+                console.log('db connected')
                 resolve(connection);
             } else {
                 reject(err);

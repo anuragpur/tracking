@@ -5,7 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 var jwt = require('jsonwebtoken');
-var cors = require('cors')
+var cors = require('cors');
+var config = require('./config/storage').getDB()
 
 
 var indexRouter = require('./routes/index');
@@ -66,6 +67,14 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+
+var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080
+var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
+
+app.listen(server_port, server_ip_address, function () {
+    console.log( "Listening on " + server_ip_address + ", port " + server_port )
 });
 
 module.exports = app;
