@@ -34,9 +34,9 @@ function loginInAUser(req, res) {
                     if (equal) {
                         var tokenObj = {
                             userId: obj.user_id,
-                            type: obj.type
+                            role: obj.role
                         };
-
+console.log(tokenObj)
                         var token = jwt.sign(tokenObj, config.secret, {expiresIn: '24h'});
 
                         res.status(200).json({

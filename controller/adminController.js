@@ -8,7 +8,8 @@ module.exports = {
 }
 
 function assignRoutesToDriver(req, res) {
-    if (req.role == 'admin') {
+console.log(req.role)
+    if (req.role === 'admin') {
         var route = new driveRoutes(req.body);
         route.save(function (err, obj) {
             if (err) res.status(422).json({code: 422, errors: err})
@@ -20,7 +21,7 @@ function assignRoutesToDriver(req, res) {
 
 }
 
-function assignRoutesToUser() {
+function assignRoutesToUser(req,res) {
     if (req.role == 'admin') {
         var route = new userRotes(req.body);
         route.save(function (err, obj) {

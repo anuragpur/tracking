@@ -30,18 +30,20 @@ app.use('/', indexRouter);
 app.use('/api', usersRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+//app.use(function(req, res, next) {
+ // next(createError(404));
+//});
 
 // app middleware that will happen on every request to check JWT
 app.use(function (req, res, next) {
     var token = req.header('Authorization') || req.query.state;
     if (token) {
-        jwt.verify(token, config.secret, function (err, decoded) {
+        jwt.verify(token,'appsecret', function (err, decoded) {
+console.log(err)
             if (err) {
                 return res.status(401).json({success: false, message: 'Failed to authenticate token.'});
             } else {
+console.log(decoded)
                 req.userId = decoded.userId;
                 req.role = decoded.role;
                 next();
