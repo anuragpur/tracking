@@ -2,11 +2,11 @@ var storage = {};
 storage.secret= 'appsecret';
 var mongoose = require('mongoose');
 //provide a sensible default for local development
-mongodb_connection_string = 'mongodb://127.0.0.1:27017/' + 'tracking';
+mongodb_connection_string = 'mongodb://tracking:123456789@ds241699.mlab.com:41699/tracking';
 //take advantage of openshift env vars when available:
-if(process.env.OPENSHIFT_MONGODB_DB_URL){
-    mongodb_connection_string = process.env.OPENSHIFT_MONGODB_DB_URL + 'tracking';
-}
+// if(process.env.OPENSHIFT_MONGODB_DB_URL){
+//     mongodb_connection_string = process.env.OPENSHIFT_MONGODB_DB_URL + 'tracking';
+// }
 mongoose.connect(mongodb_connection_string);
 
 var MongoClient = require('mongodb').MongoClient;
