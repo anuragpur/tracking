@@ -1,5 +1,6 @@
 var registerAndLogin = require('../model/user.js');
 var bcrypt = require('bcrypt-nodejs');
+var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
 var config = require('../config/storage.js');
 module.exports = {
@@ -12,6 +13,7 @@ module.exports = {
 * this function is responsible for registering a new registerAndLogin
 */
 function registerAUser(req, res) {
+    req.body.user_id=crypto.createHash('md5').update(req.body.email + Date.now()).digest('hex');
     var userObj = new registerAndLogin(req.body);
     userObj.save(function (err, obj) {
         if (err) res.status(422).json({code: 422, errors: err})
